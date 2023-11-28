@@ -29,6 +29,7 @@ Important Considerations:
 import os
 import shutil
 import random
+import secrets
 import string
 from pathlib import Path
 import subprocess
@@ -61,11 +62,11 @@ def fill_file_with_random_data(file_path, size, printremovals):
     :param printremovals: If true, print messages about the data removal process
     """
     try:
-        # Generate random data of the specified size
-        random_data = get_random_string(size)
+        # Generate cryptographically secure random data
+        random_data = secrets.token_bytes(size)
         # Write the random data to the file
         with open(file_path, 'wb') as f:
-            f.write(random_data.encode('utf-8'))
+            f.write(random_data)
             f.flush()
             os.fsync(f.fileno())
         # Print a message if printremovals is true
