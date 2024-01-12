@@ -1,7 +1,7 @@
 
 '''
-This Python script includes a function generate_password() for generating a random password. The generated password adheres to common security standards, including a mix of uppercase and lowercase letters, digits, and special characters. The length of the password is randomly set to be between 12 and 18 characters. Here's a breakdown of how it works:
-1. Password Length: The script determines the password length randomly, choosing a length between 12 and 18 characters.
+This Python script includes a function generate_password() for generating a random password. The generated password adheres to common security standards, including a mix of uppercase and lowercase letters, digits, and special characters. The length of the password is randomly set to be 12 to 64 characters. Here's a breakdown of how it works:
+1. Password Length: The script determines the password length randomly, choosing a length be 12 to 64 characters.
 2. Character Pools: It defines four character pools - uppercase letters, lowercase letters, digits, and special characters (punctuation).
 3. Initial Character: The script ensures the password starts with a random letter (either uppercase or lowercase) for additional complexity.
 4. Random Character Selection: The remaining characters are chosen randomly from the four defined pools until the password reaches the intended length.
@@ -21,34 +21,52 @@ Use Cases:
 Note: While this script generates strong passwords, it's important to use a secure method to store and manage your passwords, such as a password manager. Avoid using simple, predictable modifications of the generated passwords, as it can reduce their security.
 '''
 
-import random
+import secrets
 import string
 
-def generate_password():
+import secrets
+import string
+
+import secrets
+import string
+
+def generate_password(length):
     """
     Generates a random password starting with a letter and containing a mix of
     uppercase, lowercase, digits, and special characters. The length of the
-    password will be between 12 and 18 characters.
+    password is determined by the user input.
     """
-    password_length = random.randint(12, 18)
-
     # Define character pools
     char_pools = [string.ascii_uppercase, string.ascii_lowercase, string.digits, string.punctuation]
     
     # Start with a random letter
-    password = [random.choice(string.ascii_letters)]
+    password = [secrets.choice(string.ascii_letters)]
 
     # Randomly select characters from different pools
-    while len(password) < password_length:
-        char_pool = random.choice(char_pools)
-        password.append(random.choice(char_pool))
+    while len(password) < length:
+        char_pool = secrets.choice(char_pools)
+        password.append(secrets.choice(char_pool))
 
     # Shuffle the password, except the first character
     rest_of_password = password[1:]
-    random.shuffle(rest_of_password)
+    secrets.SystemRandom().shuffle(rest_of_password)
     password = [password[0]] + rest_of_password
 
     return ''.join(password)
 
-random_password = generate_password()
-print("Randomly generated password:", random_password)
+# Prompt user for password length
+while True:
+    user_input = input("Enter the desired password length (12 to 64) or 'q' to quit: ")
+    if user_input.lower() == 'q':
+        print("Exiting the password generator.")
+        break
+    try:
+        length = int(user_input)
+        if length >= 12 and length <= 64:
+            random_password = generate_password(length)
+            print("Randomly generated password:", random_password)
+            break
+        else:
+            print("Password length must be 12 to 64 characters. Try again.")
+    except ValueError:
+        print("Invalid input. Please enter a number or 'q' to quit.")
