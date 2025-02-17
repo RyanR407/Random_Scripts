@@ -24,12 +24,6 @@ Note: While this script generates strong passwords, it's important to use a secu
 import secrets
 import string
 
-import secrets
-import string
-
-import secrets
-import string
-
 def generate_password(length):
     """
     Generates a random password starting with a letter and containing a mix of
